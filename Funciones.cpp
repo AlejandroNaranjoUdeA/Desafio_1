@@ -4,28 +4,12 @@ using namespace std;
 
 //IMPLEMENTACION DE LAS FUNCIONES:
 
-int numero_filas, **puntero_matriz; //no es necesario el numero de columnas, ya que es una matriz cuadrada
-
-void rellenarMatrices(){
-    cout<<"Ingrese el numero de filas de la matriz: ";
-    cin>>numero_filas;
-
-    while(numero_filas%2==0){
-        cout<<"Ingrese un numero impar de filas de la matriz: ";
-        cin>>numero_filas;
-    }
-
-
-    //reservando memoria dinamica para la matriz:
-    puntero_matriz= new int*[numero_filas];
-    for(int i=0; i<numero_filas; i++){
-        puntero_matriz[i]= new int[numero_filas];
-    }
-
+void RellenarMatriz(int **puntero_matriz, int numero_filas){
     int contador=1;
     for(int i=0; i<numero_filas ; i++){
         for(int j=0; j<numero_filas; j++){
             if((i==numero_filas/2) && (j==numero_filas/2)){
+                //rellenar la matriz central con 0
                 *(*(puntero_matriz+i)+j)= 0;
             }
             else{
@@ -35,17 +19,65 @@ void rellenarMatrices(){
     }
 }
 
-void mostrarMatrizRellena(){
-    cout<<"\n\nMostrando matriz "<<numero_filas<<"X"<<numero_filas<<endl<<endl;
+void estadoNeutro(int **puntero_matriz, int numero_filas){
+    cout<<"\n\nMostrando matriz neutra: "<<endl<<endl;
     for(int i=0; i<numero_filas; i++){
         for(int j=0; j<numero_filas; j++){
             if(*(*(puntero_matriz+i)+j)>=10){
                 cout<<*(*(puntero_matriz+i)+j)<<"    ";
+
+            }
+            else{
+                cout<<*(*(puntero_matriz+i)+j)<<"     ";
+
+            }
+        }
+        cout<<endl<<endl<<endl;
+    }
+}
+
+void MatrizTranspuesta(int **puntero_matriz, int numero_filas){
+
+    for(int i=0; i<numero_filas; i++){
+        for(int j=0; j<numero_filas; j++){
+            *(*(puntero_matriz+i)+j)= *(*(puntero_matriz+j)+i);
+        }
+    }
+
+    cout<<"\n\nMatriz Transpuesta: "<<endl<<endl;
+    for(int i=0; i<numero_filas; i++){
+        for(int j=0; j<numero_filas; j++){
+            if(*(*(puntero_matriz+i)+j)>=10){
+                cout<<*(*(puntero_matriz+i)+j)<<"    ";
+
             }
             else{
                 cout<<*(*(puntero_matriz+i)+j)<<"     ";
             }
         }
-        cout<<endl<<endl;
+        cout<<endl<<endl<<endl;
+    }
+}
+
+void estado1(int **puntero_matriz, int numero_filas){
+    for(int i=0; i<numero_filas; i++){
+        for(int j=0; j<numero_filas; j++){
+            swap(*(*(puntero_matriz + i) + j), *(*(puntero_matriz + numero_filas - i - 1) + j));
+        }
+    }
+
+    cout<<"\n\nMostrando estado 1 de la matriz: "<<endl<<endl;
+    for(int i=0; i<numero_filas; i++){
+        for(int j=0; j<numero_filas; j++){
+            if(*(*(puntero_matriz+i)+j)>=10){
+                cout<<*(*(puntero_matriz+i)+j)<<"    ";
+
+            }
+            else{
+                cout<<*(*(puntero_matriz+i)+j)<<"     ";
+
+            }
+        }
+        cout<<endl<<endl<<endl;
     }
 }
