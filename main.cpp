@@ -7,7 +7,7 @@ using namespace std;
 
 int main(){
 
-    int numero_filas;
+    signed int numero_filas;
     cout<<"Ingrese el numero de filas de la matriz: ";
     cin>>numero_filas;
 
@@ -23,9 +23,25 @@ int main(){
     }
 
     RellenarMatriz(puntero_matriz, numero_filas);
+
+    cout<<"\n\nMostrando estado neutro de la matriz: "<<endl<<endl;
     estadoNeutro(puntero_matriz, numero_filas);
+
+    cout<<"\n\nMostrando estado 1 de la matriz: "<<endl<<endl;
     MatrizTranspuesta(puntero_matriz,numero_filas);
-    estado1(puntero_matriz,numero_filas);
+    cambiarFilas(puntero_matriz,numero_filas);
+
+    cout<<"\n\nMostrando estado 2 de la matruz: "<<endl<<endl;
+    MatrizTranspuesta(puntero_matriz,numero_filas);
+    cambiarFilas(puntero_matriz,numero_filas);
+
+    cout<<"\n\nMostrando estado 3 de la matriz: "<<endl<<endl;
+    MatrizTranspuesta(puntero_matriz,numero_filas);
+    cambiarFilas(puntero_matriz,numero_filas);
+
+    cout<<"\n\nVolviendo al estado neutro de la matriz: "<<endl<<endl;
+    MatrizTranspuesta(puntero_matriz,numero_filas);
+    cambiarFilas(puntero_matriz,numero_filas);
 
 
     //ELIMINACION DE MEMORIA DINAMICA

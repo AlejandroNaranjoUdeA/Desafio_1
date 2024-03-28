@@ -8,7 +8,7 @@
 void RellenarMatriz(int **, int);
 void estadoNeutro(int **, int);
 void MatrizTranspuesta(int **, int);
-void estado1(int **, int);
+void cambiarFilas(int **, int);
 
 
 

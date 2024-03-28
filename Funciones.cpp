@@ -20,7 +20,6 @@ void RellenarMatriz(int **puntero_matriz, int numero_filas){
 }
 
 void estadoNeutro(int **puntero_matriz, int numero_filas){
-    cout<<"\n\nMostrando matriz neutra: "<<endl<<endl;
     for(int i=0; i<numero_filas; i++){
         for(int j=0; j<numero_filas; j++){
             if(*(*(puntero_matriz+i)+j)>=10){
@@ -38,35 +37,20 @@ void estadoNeutro(int **puntero_matriz, int numero_filas){
 
 void MatrizTranspuesta(int **puntero_matriz, int numero_filas){
 
+    //transponer matriz:
     for(int i=0; i<numero_filas; i++){
-        for(int j=0; j<numero_filas; j++){
-            *(*(puntero_matriz+i)+j)= *(*(puntero_matriz+j)+i);
-        }
-    }
-
-    cout<<"\n\nMatriz Transpuesta: "<<endl<<endl;
-    for(int i=0; i<numero_filas; i++){
-        for(int j=0; j<numero_filas; j++){
-            if(*(*(puntero_matriz+i)+j)>=10){
-                cout<<*(*(puntero_matriz+i)+j)<<"    ";
-
-            }
-            else{
-                cout<<*(*(puntero_matriz+i)+j)<<"     ";
-            }
-        }
-        cout<<endl<<endl<<endl;
+        for(int j=i+1; j<numero_filas; j++){
+            int temp = *(*(puntero_matriz + i) + j);
+            *(*(puntero_matriz + i) + j) = *(*(puntero_matriz + j) + i);
+            *(*(puntero_matriz + j) + i) = temp;        }
     }
 }
 
-void estado1(int **puntero_matriz, int numero_filas){
-    for(int i=0; i<numero_filas; i++){
-        for(int j=0; j<numero_filas; j++){
-            swap(*(*(puntero_matriz + i) + j), *(*(puntero_matriz + numero_filas - i - 1) + j));
-        }
+void cambiarFilas(int **puntero_matriz, int numero_filas){
+    for(int i=0; i<numero_filas/2; i++){
+        swap(*(puntero_matriz + i), *(puntero_matriz + numero_filas - i - 1));
     }
 
-    cout<<"\n\nMostrando estado 1 de la matriz: "<<endl<<endl;
     for(int i=0; i<numero_filas; i++){
         for(int j=0; j<numero_filas; j++){
             if(*(*(puntero_matriz+i)+j)>=10){
@@ -81,3 +65,5 @@ void estado1(int **puntero_matriz, int numero_filas){
         cout<<endl<<endl<<endl;
     }
 }
+
+
