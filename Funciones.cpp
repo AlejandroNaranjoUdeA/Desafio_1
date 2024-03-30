@@ -5,16 +5,26 @@ using namespace std;
 //IMPLEMENTACION DE LAS FUNCIONES:
 
 //funcion que se usa por ahora, para llenar los datos de la llave en un arreglo:
-void pedir_llave(int * puntero_llave, int tamano_llave){
+void pedir_llave(int *puntero_llave, int tamano_llave){
     for(int i=0; i<tamano_llave; i++){
         cout<<"Ingrese un numero: ";
         cin>>*(puntero_llave+i);
     }
 }
 
-void crear_punteros_para_matrices(int numero_matrices){
-    int tamano = 3; //tamano inicial de la primera matriz
+void crear_punteros_para_matrices(int ***puntero_candado, int numero_matrices){
+    int tamano_inicial_matriz = 3; //tamano inicial de la primera matriz
 
+    //reservamos memoria dinamica para las matrices
+    puntero_candado= new int **[numero_matrices];
+
+    //reservamos memoria dinamica para las filas y columnas de cada una de las matrices
+    for(int i=0; i<numero_matrices; i++){ //FILAS
+        puntero_candado[i]= new int*[tamano_inicial_matriz]; //las matrices van a ser de 3x3 todas, por ahora, solo es una prueba
+        for(int j=0; j<numero_matrices; j++){//COLUMNAS:
+            puntero_candado[i][j]= new int[tamano_inicial_matriz];
+        }
+    }
 }
 
 

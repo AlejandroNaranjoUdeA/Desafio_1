@@ -14,15 +14,15 @@ int main(){
     cout<<"Ingrese el tamano de la llave: ";
     cin>>tamano_llave;
 
-
     //se declara una variable que me va a guardar el numero de matrices necesarias para el candado
     int numero_matrices= tamano_llave-1;
 
     //pedimos la llave y la guardamos en un puntero;
     pedir_llave(puntero_llave, tamano_llave);
 
+    int ***puntero_candado; //triple puntero que almacena todas las matrices que vamos a utilizar
 
-
+    crear_punteros_para_matrices(puntero_candado, numero_matrices);
 
 
 
@@ -36,22 +36,15 @@ int main(){
         cin>>numero_filas;
     }
 
-    //RESERVA DE MEMORIA DINAMICA:
-    int **puntero_matriz = new int*[numero_filas];
-    for(int i=0; i<numero_filas; i++){
-        puntero_matriz[i]= new int[numero_filas];
+
+    //LIBERACION DE LA MEMORIA DINAMICA:
+    for(int i=0; i<numero_matrices; i++){
+        for(int j=0; j<3; i++){
+            delete[] puntero_candado[i][j];
+        }
+        delete[] puntero_candado[i];
     }
-
-
-
-
-    //ELIMINACION DE MEMORIA DINAMICA
-    for(int i=0; i<numero_filas; i++){
-        delete[] puntero_matriz[i];
-    }
-    delete[] puntero_matriz;
-
-
+    delete[] puntero_candado;
 
 
     return 0;
