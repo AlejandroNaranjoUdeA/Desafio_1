@@ -5,10 +5,12 @@
 
 //PROTOTIPO DE LAS FUNCIONES
 
+void pedir_llave(int *, int);
+void crear_punteros_para_matrices(int);
 void RellenarMatriz(int **, int);
-void estadoNeutro(int **, int);
-void MatrizTranspuesta(int **, int);
-void cambiarFilas(int **, int);
+void posicionNeutra(int **, int);
+void rotar(int **, int);
+
 
 
 

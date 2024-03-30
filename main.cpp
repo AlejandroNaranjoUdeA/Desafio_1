@@ -7,7 +7,27 @@ using namespace std;
 
 int main(){
 
-    signed int numero_filas;
+    unsigned int tamano_llave;
+    int *puntero_llave= nullptr; //puntero para la llave
+
+    //pedimos el tamano de la llave, aclaracion: esto es temporal
+    cout<<"Ingrese el tamano de la llave: ";
+    cin>>tamano_llave;
+
+
+    //se declara una variable que me va a guardar el numero de matrices necesarias para el candado
+    int numero_matrices= tamano_llave-1;
+
+    //pedimos la llave y la guardamos en un puntero;
+    pedir_llave(puntero_llave, tamano_llave);
+
+
+
+
+
+
+
+    unsigned int numero_filas;
     cout<<"Ingrese el numero de filas de la matriz: ";
     cin>>numero_filas;
 
@@ -22,26 +42,7 @@ int main(){
         puntero_matriz[i]= new int[numero_filas];
     }
 
-    RellenarMatriz(puntero_matriz, numero_filas);
 
-    cout<<"\n\nMostrando estado neutro de la matriz: "<<endl<<endl;
-    estadoNeutro(puntero_matriz, numero_filas);
-
-    cout<<"\n\nMostrando estado 1 de la matriz: "<<endl<<endl;
-    MatrizTranspuesta(puntero_matriz,numero_filas);
-    cambiarFilas(puntero_matriz,numero_filas);
-
-    cout<<"\n\nMostrando estado 2 de la matruz: "<<endl<<endl;
-    MatrizTranspuesta(puntero_matriz,numero_filas);
-    cambiarFilas(puntero_matriz,numero_filas);
-
-    cout<<"\n\nMostrando estado 3 de la matriz: "<<endl<<endl;
-    MatrizTranspuesta(puntero_matriz,numero_filas);
-    cambiarFilas(puntero_matriz,numero_filas);
-
-    cout<<"\n\nVolviendo al estado neutro de la matriz: "<<endl<<endl;
-    MatrizTranspuesta(puntero_matriz,numero_filas);
-    cambiarFilas(puntero_matriz,numero_filas);
 
 
     //ELIMINACION DE MEMORIA DINAMICA
