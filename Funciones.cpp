@@ -12,6 +12,10 @@ void pedir_llave(int *puntero_llave, int tamano_llave){
     }
 }
 
+void hallarTamañoDeMatrices(){
+
+}
+
 void crear_punteros_para_matrices(int ***puntero_candado, int numero_matrices){
     int tamano_inicial_matriz = 3; //tamano inicial de la primera matriz
 
