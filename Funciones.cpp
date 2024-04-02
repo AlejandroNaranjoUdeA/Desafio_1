@@ -12,7 +12,21 @@ void pedir_llave(int *puntero_llave, int tamano_llave){
     }
 }
 
-void hallarTamañoDeMatrices(){
+void hallarTamañoDeMatrices(int *puntero_llave){
+    /*Se va a determinar el tamaño de las matrices mediante las siguientes condiciones:
+
+    1) Si el valor de la matriz 1 tiene que ser mayor que el de la matriz 2, quiere decir que el tamaño de 1 tiene que ser mayor que el de 2
+    2) Si el valor de la matriz 2 tiene que ser menor que el de la matriz 3, quiere decir que el tamaño de 2 tiene que ser menor que 3 y que 3 puede ser igual
+    o mayor que 1
+    3) Si el valor de la matriz 3 tiene que ser mayor que el de la matriz 4, quiere decir que el tamaño de 3 tiene que ser mayor que 4 y 4 tiene que ser igual
+    o menor que 2
+
+    Todo esto se hace ya que, si la matriz que necesitamos requiere un valor mayor, por obligacion esta tiene que tener mayor dimension ya que posee valores
+    mas grandes
+
+
+
+    */
 
 }
 
