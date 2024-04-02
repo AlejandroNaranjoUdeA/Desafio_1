@@ -1,6 +1,6 @@
 //MAIN:
 
-#include"funciones.h"
+#include"Funciones.h"
 #include<iostream>
 #include<stdlib.h> //libreria para new y delete:
 using namespace std;
@@ -9,6 +9,12 @@ int main(){
 
     unsigned int tamano_llave;
     int *puntero_llave= nullptr; //puntero para la llave
+
+
+    //creamos un arreglo para reservar los tamaños de las matricesÑ
+    int *puntero_tamano_matrices= nullptr;
+
+    puntero_tamano_matrices= new int;
 
     //reservamos memoria dinamica para el puntero de la llave:
     puntero_llave= new int;
@@ -48,6 +54,9 @@ int main(){
 
     //liberamos memoria dinamica del puntero de la llave
     delete puntero_llave;
+
+    //liberamos memoria dinamica para el puntero del tamaño de las matrices
+    delete puntero_tamano_matrices;
 
 
     return 0;

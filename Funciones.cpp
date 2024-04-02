@@ -12,7 +12,25 @@ void pedir_llave(int *puntero_llave, int tamano_llave){
     }
 }
 
-void hallarTamañoDeMatrices(int *puntero_llave){
+int encontrarNumeroImparCercanoMayor(int *puntero_llave) {
+    unsigned int num1 = *(puntero_llave); // Primer número del arreglo
+    unsigned int num2 = *(puntero_llave+1); // Segundo número del arreglo
+
+    unsigned int numeroMayor = (num1 > num2) ? num1 : num2; // Encontrar el número mayor
+    unsigned int numeroImpar = (numeroMayor % 2 == 0) ? numeroMayor + 1 : numeroMayor + 2; // Encontrar el próximo número impar mayor
+
+    /*
+    como funciona el ?
+
+    condicion ? valor_si_verdadero : valor_si_falso
+    Donde condicion es una expresión que se evalúa como verdadera o falsa.
+    Si la condicion es verdadera, la expresión ternaria devuelve valor_si_verdadero; de lo contrario, devuelve valor_si_falso
+    */
+
+    return numeroImpar;
+}
+
+void hallarTamanoDeMatrices(int *puntero_llave, int tamano_llave, int *puntero_tamano_matrices){
     /*Se va a determinar el tamaño de las matrices mediante las siguientes condiciones:
 
     1) Si el valor de la matriz 1 tiene que ser mayor que el de la matriz 2, quiere decir que el tamaño de 1 tiene que ser mayor que el de 2
@@ -24,10 +42,22 @@ void hallarTamañoDeMatrices(int *puntero_llave){
     Todo esto se hace ya que, si la matriz que necesitamos requiere un valor mayor, por obligacion esta tiene que tener mayor dimension ya que posee valores
     mas grandes
 
-
-
     */
 
+    unsigned int matrizA, matrizB; //definimos las matrices por las cuales van a ser evaluadas, estan van cambiando comforme aumentemos la posicion
+
+    //para saber cual es la dimension de la primera matriz, nos tenemos que fijar en la posicion que nos esten dando y que esta sea mayor que la fila y columna dada
+    int dimension_primera_matriz= encontrarNumeroImparCercanoMayor(puntero_llave); //Hacemos llamado a la funcion
+
+    matrizA= *(puntero_tamano_matrices); //se definen las posiciones de las matrices;
+    matrizB= *(puntero_tamano_matrices+1);
+
+    for(int i=2; i<tamano_llave; i++){ //recorremos toda el arreglo desde 2 ya que los 2 primeros valores estan reservados para la posicion de la 1ra matriz
+        if(puntero_llave[i]==1){
+            //si el valor de puntero_llave[i] es = 1, quiere decir que el valor de la matriz A tiene que ser mayor que el de la matriz B
+
+        }
+    }
 }
 
 void crear_punteros_para_matrices(int ***puntero_candado, int numero_matrices){
