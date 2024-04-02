@@ -1,9 +1,7 @@
 //MAIN:
 
 #include"Funciones.h"
-#include<iostream>
-#include<stdlib.h> //libreria para new y delete:
-using namespace std;
+
 
 int main(){
 

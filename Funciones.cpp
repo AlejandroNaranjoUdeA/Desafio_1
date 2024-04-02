@@ -1,7 +1,5 @@
-#include<iostream>
-#include<stdlib.h>
-using namespace std;
 
+#include"Funciones.h"
 //IMPLEMENTACION DE LAS FUNCIONES:
 
 //funcion que se usa por ahora, para llenar los datos de la llave en un arreglo:

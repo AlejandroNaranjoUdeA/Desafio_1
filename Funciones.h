@@ -1,5 +1,8 @@
 #ifndef FUNCIONES_H
 #define FUNCIONES_H
+#include<iostream>
+#include<stdlib.h> //libreria para new y delete:
+using namespace std;
 
 #endif // FUNCIONES_H
 
