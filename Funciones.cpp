@@ -21,7 +21,7 @@ void crear_punteros_para_matrices(int ***puntero_candado, int numero_matrices){
     //reservamos memoria dinamica para las filas y columnas de cada una de las matrices
     for(int i=0; i<numero_matrices; i++){ //FILAS
         puntero_candado[i]= new int*[tamano_inicial_matriz]; //las matrices van a ser de 3x3 todas, por ahora, solo es una prueba
-        for(int j=0; j<numero_matrices; j++){//COLUMNAS:
+        for(int j=0; j<3; j++){//COLUMNAS:
             puntero_candado[i][j]= new int[tamano_inicial_matriz];
         }
     }

@@ -10,6 +10,9 @@ int main(){
     unsigned int tamano_llave;
     int *puntero_llave= nullptr; //puntero para la llave
 
+    //reservamos memoria dinamica para el puntero de la llave:
+    puntero_llave= new int;
+
     //pedimos el tamano de la llave, aclaracion: esto es temporal
     cout<<"Ingrese el tamano de la llave: ";
     cin>>tamano_llave;
@@ -25,8 +28,6 @@ int main(){
     crear_punteros_para_matrices(puntero_candado, numero_matrices);
 
 
-
-
     unsigned int numero_filas;
     cout<<"Ingrese el numero de filas de la matriz: ";
     cin>>numero_filas;
@@ -36,16 +37,19 @@ int main(){
         cin>>numero_filas;
     }
 
-
     //LIBERACION DE LA MEMORIA DINAMICA:
     for(int i=0; i<numero_matrices; i++){
-        for(int j=0; j<3; i++){
+        for(int j=0; j<3; j++){
             delete[] puntero_candado[i][j];
         }
         delete[] puntero_candado[i];
     }
     delete[] puntero_candado;
 
+    //liberamos memoria dinamica del puntero de la llave
+    delete puntero_llave;
+
 
     return 0;
 }
+
