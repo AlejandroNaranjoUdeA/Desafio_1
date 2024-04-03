@@ -1,10 +1,10 @@
-
 #include"Funciones.h"
-//IMPLEMENTACION DE LAS FUNCIONES:
 
-//funcion que se usa por ahora, para llenar los datos de la llave en un arreglo:
+//IMPLEMENTACION DE LAS FUNCIONES
+//funcion que se usa por ahora, para llenar los datos de la llave en un arreglo
+
 void pedir_llave(int *puntero_llave, int tamano_llave){
-    for(int i=0; i<tamano_llave; i++){
+    for(int i=0; i< tamano_llave; i++){
         cout<<"Ingrese un numero: ";
         cin>>*(puntero_llave+i);
     }
@@ -136,3 +136,69 @@ void rotar(int **puntero_matriz, int numero_filas){
 }
 
 
+
+
+// Función para determinar el signo de acuerdo al valor de K
+string determinarSigno(int valor_K) {
+    if (valor_K < 0) {
+        return "<";
+    } else {
+        return ">";
+    }
+}
+
+// Función para comparar los valores según las reglas dadas por K
+bool compararValores(int K[], int valores[], int tamano_K, int tamano_valores) {
+    if (tamano_valores != tamano_K - 1) {
+        cerr << "Error: El número de valores debe ser igual al número de elementos en K - 1." << endl;
+        return false;
+    }
+
+    string signo_actual = determinarSigno(K[2]); // Signo del primer valor de K
+    int index_valores = 0;
+
+    for (int i = 0; i < tamano_K - 1; i += 2) {
+        int valor_K = K[i + 1];
+        string signo = determinarSigno(valor_K);
+
+        if (signo != signo_actual) {
+            return false;
+        }
+
+        signo_actual = (signo_actual == ">") ? "<" : ">"; // Alternamos el signo
+
+        // Se verifica si se cumplen las condiciones con los valores dados
+        if (!((signo == ">" && valores[index_valores] > valores[index_valores + 1]) ||
+              (signo == "<" && valores[index_valores] < valores[index_valores + 1]))) {
+            return false;
+        }
+
+        index_valores++;
+    }
+
+    return true;
+}
+
+/**
+ funcion para saber si la llave abrer el candado dependiendo de los valores y de k
+int main() {
+    // Supongamos que ya tienes el arreglo K y los valores A, B, C y D
+    int K[] = {4, 3, -1, -1, 1}; // Esto corresponde a K(4,3,-1,-1,1)
+    int valores[] = {7, 6, 8, 3}; // A=7, B=6, C=8, D=3
+    int tamano_K = sizeof(K) / sizeof(K[0]);
+    int tamano_valores = sizeof(valores) / sizeof(valores[0]);
+
+    // Llamamos a la función para comparar los valores
+    bool condicionesCumplidas = compararValores(K, valores, tamano_K, tamano_valores);
+
+    // Mostramos el resultado de la comparación
+    if (condicionesCumplidas) {
+        cout << "Los valores cumplen con las condiciones de K." << endl;
+    } else {
+        cout << "Los valores no cumplen con las condiciones de K." << endl;
+    }
+
+    return 0;
+}
+
+**/
