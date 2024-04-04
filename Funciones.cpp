@@ -52,6 +52,8 @@ void hallarTamanoDeMatrices(int *puntero_llave, int tamano_llave, int *puntero_t
     matrizA= *(puntero_tamano_matrices); //se definen las posiciones de las matrices;
     matrizB= *(puntero_tamano_matrices+1);
 
+    *(puntero_tamano_matrices)= dimension_primera_matriz; //llenamos la primera posicion del arreglo de los tamanos con el tamano de la primera matriz.
+
     for(int i=2; i<tamano_llave; i++){ //recorremos toda el arreglo desde 2 ya que los 2 primeros valores estan reservados para la posicion de la 1ra matriz
         if(puntero_llave[i]==1){
             //si el valor de puntero_llave[i] es = 1, quiere decir que el valor de la matriz A tiene que ser mayor que el de la matriz B
