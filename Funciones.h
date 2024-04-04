@@ -1,5 +1,8 @@
 #ifndef FUNCIONES_H
 #define FUNCIONES_H
+#include<iostream>
+#include<stdlib.h> //libreria para new y delete:
+using namespace std;
 
 #endif // FUNCIONES_H
 
@@ -12,6 +15,8 @@ void RellenarMatriz(int **, int);
 void posicionNeutra(int **, int);
 void rotar(int **, int);
 
+string determinarSigno(int valor_K);
+bool compararValores(int K[], int valores[], int tamano_K, int tamano_valores);
 
 
 

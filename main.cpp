@@ -1,12 +1,9 @@
 //MAIN:
 
 #include"Funciones.h"
-#include<iostream>
-#include<stdlib.h> //libreria para new y delete:
-using namespace std;
+
 
 int main(){
-
     unsigned int tamano_llave;
     int *puntero_llave= nullptr; //puntero para la llave
 
@@ -57,8 +54,22 @@ int main(){
 
     //liberamos memoria dinamica para el puntero del tamaño de las matrices
     delete puntero_tamano_matrices;
+/**
+    int K[] = {4, 3, -1, -1, 1}; // Esto corresponde a K(4,3,-1,-1,1)
+    int valores[] = {7, 6, 8, 3}; // A=7, B=6, C=8, D=3
+    int tamano_K = sizeof(K) / sizeof(K[0]);
+    int tamano_valores = sizeof(valores) / sizeof(valores[0]);
 
+    // Llamamos a la función para comparar los valores
+    bool condicionesCumplidas = compararValores(K, valores, tamano_K, tamano_valores);
 
+    // Mostramos el resultado de la comparación
+    if (condicionesCumplidas) {
+        cout << "Los valores cumplen con las condiciones de K." << endl;
+    } else {
+        cout << "Los valores no cumplen con las condiciones de K." << endl;
+    }
+**/
     return 0;
 }
 
