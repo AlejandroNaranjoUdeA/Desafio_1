@@ -140,60 +140,44 @@ void rotar(int **puntero_matriz, int numero_filas){
 
 
 
-// Función para determinar el signo de acuerdo al valor de K
-string determinarSigno(int valor_K) {
-    if (valor_K < 0) {
-        return "<";
-    } else {
-        return ">";
-    }
-}
+// Función para verificar si los valores cumplen con las condiciones dadas por K
+bool verificarValores(int K[], int valores[], int num_valores) {
+    // Obtener las condiciones de K
+    int num_condiciones = num_valores - 1;
+    int* condiciones = K + 2;
 
-// Función para comparar los valores según las reglas dadas por K
-bool compararValores(int K[], int valores[], int tamano_K, int tamano_valores) {
-    if (tamano_valores != tamano_K - 1) {
-        cerr << "Error: El número de valores debe ser igual al número de elementos en K - 1." << endl;
-        return false;
-    }
+    // Verificar las condiciones
+    for (int i = 0; i < num_condiciones; ++i) {
+        int valor_actual = valores[i];
+        int valor_siguiente = valores[i + 1];
+        int condicion = condiciones[i];
 
-    string signo_actual = determinarSigno(K[2]); // Signo del primer valor de K
-    int index_valores = 0;
-
-    for (int i = 0; i < tamano_K - 1; i += 2) {
-        int valor_K = K[i + 1];
-        string signo = determinarSigno(valor_K);
-
-        if (signo != signo_actual) {
+        // Verificar si se cumple la condición
+        if ((condicion == 1 && valor_actual > valor_siguiente) ||
+            (condicion == -1 && valor_actual < valor_siguiente) ||
+            (condicion == 0 && valor_actual == valor_siguiente)) {
+            continue; // Avanzar al siguiente valor
+        } else {
+            // Mostrar el valor que no cumple con la condición y retornar falso
+            cout << "El valor " << valor_actual << " y el "<<valor_siguiente<< " no cumple con la condición." << endl;
             return false;
+
         }
 
-        signo_actual = (signo_actual == ">") ? "<" : ">"; // Alternamos el signo
-
-        // Se verifica si se cumplen las condiciones con los valores dados
-        if (!((signo == ">" && valores[index_valores] > valores[index_valores + 1]) ||
-              (signo == "<" && valores[index_valores] < valores[index_valores + 1]))) {
-            return false;
-        }
-
-        index_valores++;
     }
-
+    // Si se llega a este punto, significa que todas las condiciones se cumplen
     return true;
 }
-
 /**
- funcion para saber si la llave abrer el candado dependiendo de los valores y de k
 int main() {
-    // Supongamos que ya tienes el arreglo K y los valores A, B, C y D
-    int K[] = {4, 3, -1, -1, 1}; // Esto corresponde a K(4,3,-1,-1,1)
-    int valores[] = {7, 6, 8, 3}; // A=7, B=6, C=8, D=3
-    int tamano_K = sizeof(K) / sizeof(K[0]);
-    int tamano_valores = sizeof(valores) / sizeof(valores[0]);
+    int K[] = {4, 3, 0, -1, -1, 1}; // Arreglo K(4,3,1,-1,1)
+    int valores[] = {7, 7, 9, 10, 7}; // Valores dados
+    int num_valores = sizeof(valores) / sizeof(valores[0]);
 
-    // Llamamos a la función para comparar los valores
-    bool condicionesCumplidas = compararValores(K, valores, tamano_K, tamano_valores);
+    // Llamamos a la función para verificar los valores
+    bool condicionesCumplidas = verificarValores(K, valores, num_valores);
 
-    // Mostramos el resultado de la comparación
+    // Mostramos el resultado de la verificación
     if (condicionesCumplidas) {
         cout << "Los valores cumplen con las condiciones de K." << endl;
     } else {
@@ -202,5 +186,4 @@ int main() {
 
     return 0;
 }
-
 **/
