@@ -3,12 +3,35 @@
 //IMPLEMENTACION DE LAS FUNCIONES
 //funcion que se usa por ahora, para llenar los datos de la llave en un arreglo
 
-void pedir_llave(int *puntero_llave, int tamano_llave){
-    for(int i=0; i< tamano_llave; i++){
-        cout<<"Ingrese un numero: ";
-        cin>>*(puntero_llave+i);
+
+// Función para pedir la llave y almacenarla en un arreglo dinámico
+void pedir_llave(int *&llave, int &tamano) {
+    int capacidad = 5; // Capacidad inicial del arreglo dinámico
+    tamano = 0; // Tamaño actual del arreglo dinámico
+
+    llave = new int[capacidad]; // Inicializamos el arreglo dinámico
+
+    int elemento;
+    cout << "Ingrese los elementos de la llave separados por espacios, y finalice con -999: ";
+    while (cin >> elemento && elemento != -999) {
+        if (tamano == capacidad) {
+            // Si se alcanza la capacidad máxima, redimensionamos el arreglo
+            capacidad *= 2;
+            int *nueva_llave = new int[capacidad];
+            // Copiamos los elementos al nuevo arreglo
+            for (int i = 0; i < tamano; ++i) {
+                nueva_llave[i] = llave[i];
+            }
+            // Liberamos la memoria del arreglo antiguo
+            delete[] llave;
+            // Actualizamos el puntero al nuevo arreglo
+            llave = nueva_llave;
+        }
+        // Agregamos el elemento al arreglo
+        llave[tamano++] = elemento;
     }
 }
+
 
 int encontrarNumeroImparCercanoMayor(int *puntero_llave) {
     unsigned int num1 = *(puntero_llave); // Primer número del arreglo
@@ -160,6 +183,8 @@ bool verificarValores(int K[], int valores[], int num_valores) {
         } else {
             // Mostrar el valor que no cumple con la condición y retornar falso
             cout << "El valor " << valor_actual << " y el "<<valor_siguiente<< " no cumple con la condición." << endl;
+            //la idea es que en este caso se rote la matriz para buscar otro valor
+            // o sea aqui ira la funcion de rotar matriz y obtener nuevos valords
             return false;
 
         }
