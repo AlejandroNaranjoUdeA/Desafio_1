@@ -28,7 +28,8 @@ int encontrarNumeroImparCercanoMayor(int *puntero_llave) {
     return numeroImpar;
 }
 
-void hallarTamanoDeMatrices(int *puntero_llave, int tamano_llave, int *puntero_tamano_matrices){
+void hallarTamanoDeMatrices(int *puntero_llave, int tamano_llave, int *puntero_tamano_matrices) {
+
     /*Se va a determinar el tamaño de las matrices mediante las siguientes condiciones:
 
     1) Si el valor de la matriz 1 tiene que ser mayor que el de la matriz 2, quiere decir que el tamaño de 1 tiene que ser mayor que el de 2
@@ -39,43 +40,51 @@ void hallarTamanoDeMatrices(int *puntero_llave, int tamano_llave, int *puntero_t
 
     Todo esto se hace ya que, si la matriz que necesitamos requiere un valor mayor, por obligacion esta tiene que tener mayor dimension ya que posee valores
     mas grandes
-
     */
 
-    unsigned int matrizA, matrizB; //definimos las matrices por las cuales van a ser evaluadas, estan van cambiando comforme aumentemos la posicion
+    unsigned int matrizA= encontrarNumeroImparCercanoMayor(puntero_llave); //Hacemos llamado a la funcion e igualandola a matrizA
 
-    //para saber cual es la dimension de la primera matriz, nos tenemos que fijar en la posicion que nos esten dando y que esta sea mayor que la fila y columna dada
-    int dimension_primera_matriz= encontrarNumeroImparCercanoMayor(puntero_llave); //Hacemos llamado a la funcion
+    *(puntero_tamano_matrices) = matrizA; // llenamos la primera posicion con el valor de matrizA
 
-    matrizA= *(puntero_tamano_matrices); //se definen las posiciones de las matrices;
-    matrizB= *(puntero_tamano_matrices+1);
+    unsigned int matrizB = 0; // Inicializamos matrizB con el valor de la segunda matriz
 
-    *(puntero_tamano_matrices)= dimension_primera_matriz; //llenamos la primera posicion del arreglo de los tamanos con el tamano de la primera matriz.
 
-    for(int i=2; i<tamano_llave; i++){ //recorremos toda el arreglo desde 2 ya que los 2 primeros valores estan reservados para la posicion de la 1ra matriz
-        if(puntero_llave[i]==1){
-            //si el valor de puntero_llave[i] es = 1, quiere decir que el valor de la matriz A tiene que ser mayor que el de la matriz B
-
+    for(int i = 2; i < tamano_llave ; i++) { // Recorremos hasta el penúltimo elemento de puntero_llave
+        if(puntero_llave[i] == 1) {
+            matrizB = matrizA - 2; // Si puntero_llave[i] es 1, matrizA debe ser mayor que matrizB
         }
+        else if(puntero_llave[i] == -1) {
+            matrizB = matrizA + 2; // Si puntero_llave[i] es -1, matrizA debe ser menor que matrizB
+        }
+        // Si puntero_llave[i] es 0, no hacemos cambios en las matrices
+        else if(puntero_llave[i] == 0) {
+            // No se hacen cambios en las matrices, matrizA y matrizB conservan sus valores anteriores
+        }
+
+        matrizA = matrizB; // Ahora matrizA toma el valor de matrizB para el siguiente ciclo
+        *(puntero_tamano_matrices + i + 1) = matrizB; // Guardamos el valor de matrizB en el arreglo de tamaños
     }
 }
 
-void crear_punteros_para_matrices(int ***puntero_candado, int numero_matrices){
-    int tamano_inicial_matriz = 3; //tamano inicial de la primera matriz
+// Esta funcion llama a un triple puntero y reserva memoria dinamica para cada una de las matrices
+/*
+void crear_punteros_para_matrices(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices) {
 
-    //reservamos memoria dinamica para las matrices
-    puntero_candado= new int **[numero_matrices];
+    // Reservamos memoria dinámica para el triple puntero
+    puntero_candado = new int **[numero_matrices];
 
-    //reservamos memoria dinamica para las filas y columnas de cada una de las matrices
-    for(int i=0; i<numero_matrices; i++){ //FILAS
-        puntero_candado[i]= new int*[tamano_inicial_matriz]; //las matrices van a ser de 3x3 todas, por ahora, solo es una prueba
-        for(int j=0; j<3; j++){//COLUMNAS:
-            puntero_candado[i][j]= new int[tamano_inicial_matriz];
+    // Reservamos memoria dinámica para las matrices
+    for (int i = 0; i < numero_matrices; i++) {
+        int tamano_matriz = puntero_tamano_matrices[i]; // Obtenemos el tamaño de la matriz actual
+
+        // Reservamos memoria dinámica para las filas y columnas de la matriz actual
+        puntero_candado[i] = new int *[tamano_matriz];
+        for (int j = 0; j < tamano_matriz; j++) {
+            puntero_candado[i][j] = new int[tamano_matriz];
         }
     }
 }
-
-
+*/
 void RellenarMatriz(int **puntero_matriz, int numero_filas){
     int contador=1;
     for(int i=0; i<numero_filas ; i++){
@@ -181,6 +190,19 @@ bool compararValores(int K[], int valores[], int tamano_K, int tamano_valores) {
     return true;
 }
 
+// Función para liberar la memoria dinámica de las matrices
+void liberar_memoria(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices) {
+    for (int i = 0; i < numero_matrices; i++) {
+        int tamano_matriz = *(puntero_tamano_matrices+i); // Obtenemos el tamaño de la matriz actual
+
+        for (int fila = 0; fila < tamano_matriz; fila++) {
+            delete[] puntero_candado[i][fila]; // Liberamos la memoria de cada fila de la matriz
+        }
+        delete[] puntero_candado[i]; // Liberamos la memoria de la matriz en sí
+    }
+    delete[] puntero_candado; // Liberamos la memoria del triple puntero
+}
+
 /**
  funcion para saber si la llave abrer el candado dependiendo de los valores y de k
 int main() {
@@ -204,3 +226,10 @@ int main() {
 }
 
 **/
+
+/*
+for(int k=0; k<4; k++){ //la
+    for(int i=0; i<numero_filas; i++){
+        for(int j=0; j<numero_columnas; j++)
+            *(*(*(puntero+k)+i)+j);
+*/

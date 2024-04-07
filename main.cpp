@@ -26,10 +26,25 @@ int main(){
     //pedimos la llave y la guardamos en un puntero;
     pedir_llave(puntero_llave, tamano_llave);
 
-    int ***puntero_candado; //triple puntero que almacena todas las matrices que vamos a utilizar
+    hallarTamanoDeMatrices(puntero_llave, tamano_llave, puntero_tamano_matrices);
 
-    crear_punteros_para_matrices(puntero_candado, numero_matrices);
+    int ***puntero_candado; //punero de puntero de puntero que almacena todas las matrices que vamos a utilizar
 
+    //crear_punteros_para_matrices(puntero_candado, numero_matrices, puntero_tamano_matrices);
+
+    // Reservamos memoria dinámica para el triple puntero
+    puntero_candado = new int **[numero_matrices];
+
+    // Reservamos memoria dinámica para las matrices
+    for (int i = 0; i < numero_matrices; i++) {
+        int tamano_matriz = puntero_tamano_matrices[i]; // Obtenemos el tamaño de la matriz actual
+
+        // Reservamos memoria dinámica para las filas y columnas de la matriz actual
+        puntero_candado[i] = new int *[tamano_matriz];
+        for (int j = 0; j < tamano_matriz; j++) {
+            puntero_candado[i][j] = new int[tamano_matriz];
+        }
+    }
 
     unsigned int numero_filas;
     cout<<"Ingrese el numero de filas de la matriz: ";
@@ -40,14 +55,18 @@ int main(){
         cin>>numero_filas;
     }
 
-    //LIBERACION DE LA MEMORIA DINAMICA:
-    for(int i=0; i<numero_matrices; i++){
-        for(int j=0; j<3; j++){
-            delete[] puntero_candado[i][j];
+    liberar_memoria(puntero_candado,numero_matrices,puntero_tamano_matrices);
+
+    for (int i = 0; i < numero_matrices; i++) {
+        int tamano_matriz = *(puntero_tamano_matrices+i); // Obtenemos el tamaño de la matriz actual
+
+        for (int fila = 0; fila < tamano_matriz; fila++) {
+            delete[] puntero_candado[i][fila]; // Liberamos la memoria de cada fila de la matriz
         }
-        delete[] puntero_candado[i];
+        delete[] puntero_candado[i]; // Liberamos la memoria de la matriz en sí
     }
-    delete[] puntero_candado;
+    delete[] puntero_candado; // Liberamos la memoria del triple puntero
+
 
     //liberamos memoria dinamica del puntero de la llave
     delete puntero_llave;
