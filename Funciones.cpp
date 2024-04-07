@@ -5,7 +5,7 @@
 
 
 // Función para pedir la llave y almacenarla en un arreglo dinámico
-void pedir_llave(int *&llave, int &tamano) {
+void pedir_llave(int *llave, int tamano) {
     int capacidad = 5; // Capacidad inicial del arreglo dinámico
     tamano = 0; // Tamaño actual del arreglo dinámico
 
@@ -108,34 +108,47 @@ void crear_punteros_para_matrices(int ***puntero_candado, int numero_matrices, i
     }
 }
 */
-void RellenarMatriz(int **puntero_matriz, int numero_filas){
-    int contador=1;
-    for(int i=0; i<numero_filas ; i++){
-        for(int j=0; j<numero_filas; j++){
-            if((i==numero_filas/2) && (j==numero_filas/2)){
-                //rellenar la matriz central con 0
-                *(*(puntero_matriz+i)+j)= 0;
-            }
-            else{
-                *(*(puntero_matriz+i)+j)= contador++;
+
+//rellena cada una de las matrices desde 1 hasta que se acaben, menos la del centro
+void RellenarMatrices(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices){
+    for (int k = 0; k < numero_matrices; k++) { // Iterar sobre cada matriz
+        int tamano_matriz = *(puntero_tamano_matrices+k); // Obtener el tamaño de la matriz actual
+        int centro = tamano_matriz / 2; // Calcular el índice del centro de la matriz
+
+        // Rellenar la matriz actual con números del 1 al tamaño de la matriz
+        int contador = 1;
+        for (int i = 0; i < tamano_matriz; i++) {
+            for (int j = 0; j < tamano_matriz; j++) {
+                if (i == centro && j == centro) {
+                    *(*(*(puntero_candado+k)+i)+j) = 0; // Colocar 0 en el centro de la matriz
+                } else {
+                    *(*(*(puntero_candado+k)+i)+j) = contador++; // Rellenar la matriz con números del 1 al tamaño de la matriz
+                }
             }
         }
     }
 }
 
-void posicionNeutra(int **puntero_matriz, int numero_filas){
-    for(int i=0; i<numero_filas; i++){
-        for(int j=0; j<numero_filas; j++){
-            if(*(*(puntero_matriz+i)+j)>=10){
-                cout<<*(*(puntero_matriz+i)+j)<<"    ";
+//muestra al programador como estan quedando las matrices
+void posicionNeutra(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices){
 
-            }
-            else{
-                cout<<*(*(puntero_matriz+i)+j)<<"     ";
+    for (int k = 0; k < numero_matrices; k++) { // Iterar sobre cada matriz
+        int tamano_matriz = *(puntero_tamano_matrices + k); // Obtener el tamaño de la matriz actual
 
+        cout << "Matriz " << k + 1 << ":" << endl; // Mostrar el número de la matriz
+
+        // Mostrar los elementos de la matriz
+        for (int i = 0; i < tamano_matriz; i++) {
+            for (int j = 0; j < tamano_matriz; j++) {
+                if (*(*(*(puntero_candado + k) + i) + j) >= 10) {
+                    cout << *(*(*(puntero_candado + k) + i) + j) << "    ";
+                } else {
+                    cout << *(*(*(puntero_candado + k) + i) + j) << "     ";
+                }
             }
+            cout << endl <<endl <<endl;
         }
-        cout<<endl<<endl<<endl;
+        cout << endl <<endl <<endl;
     }
 }
 
@@ -202,7 +215,6 @@ bool verificarValores(int K[], int valores[], int num_valores) {
     // Si se llega a este punto, significa que todas las condiciones se cumplen
     return true;
 }
-<<<<<<< HEAD
 
 // Función para liberar la memoria dinámica de las matrices
 void liberar_memoria(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices) {
@@ -217,8 +229,6 @@ void liberar_memoria(int ***puntero_candado, int numero_matrices, int *puntero_t
     delete[] puntero_candado; // Liberamos la memoria del triple puntero
 }
 
-=======
->>>>>>> 8ca239989be54b61109ec6dc25fa671acf936839
 /**
 int main() {
     int K[] = {4, 3, 0, -1, -1, 1}; // Arreglo K(4,3,1,-1,1)
