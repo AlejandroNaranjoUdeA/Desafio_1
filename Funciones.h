@@ -7,18 +7,28 @@ using namespace std;
 #endif // FUNCIONES_H
 
 //PROTOTIPO DE LAS FUNCIONES
+<<<<<<< HEAD
 
 void pedir_llave(int *, int);
 int encontrarNumeroImparCercanoMayor(int *); //esta funcion se utiliza para ver la dimension de la primera matriz
 void hallarTamanoDeMatrices(int *, int , int *);
 void crear_punteros_para_matrices(int ***, int, int *);
+=======
+void pedir_llave(int *&, int &);
+int encontrarNumeroImparCercanoMayor(int *puntero_llave); //esta funcion se utiliza para ver la dimension de la primera matriz
+void crear_punteros_para_matrices(int***, int);
+>>>>>>> 8ca239989be54b61109ec6dc25fa671acf936839
 void RellenarMatriz(int **, int);
 void posicionNeutra(int **, int);
 void rotar(int **, int);
 
+<<<<<<< HEAD
 string determinarSigno(int valor_K);
 bool compararValores(int K[], int valores[], int tamano_K, int tamano_valores);
 void liberar_memoria(int ***,int , int *);
+=======
+bool verificarValores(int K[], int valores[], int num_valores);
+>>>>>>> 8ca239989be54b61109ec6dc25fa671acf936839
 
 
 

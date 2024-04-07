@@ -3,12 +3,35 @@
 //IMPLEMENTACION DE LAS FUNCIONES
 //funcion que se usa por ahora, para llenar los datos de la llave en un arreglo
 
-void pedir_llave(int *puntero_llave, int tamano_llave){
-    for(int i=0; i< tamano_llave; i++){
-        cout<<"Ingrese un numero: ";
-        cin>>*(puntero_llave+i);
+
+// Función para pedir la llave y almacenarla en un arreglo dinámico
+void pedir_llave(int *&llave, int &tamano) {
+    int capacidad = 5; // Capacidad inicial del arreglo dinámico
+    tamano = 0; // Tamaño actual del arreglo dinámico
+
+    llave = new int[capacidad]; // Inicializamos el arreglo dinámico
+
+    int elemento;
+    cout << "Ingrese los elementos de la llave separados por espacios, y finalice con -999: ";
+    while (cin >> elemento && elemento != -999) {
+        if (tamano == capacidad) {
+            // Si se alcanza la capacidad máxima, redimensionamos el arreglo
+            capacidad *= 2;
+            int *nueva_llave = new int[capacidad];
+            // Copiamos los elementos al nuevo arreglo
+            for (int i = 0; i < tamano; ++i) {
+                nueva_llave[i] = llave[i];
+            }
+            // Liberamos la memoria del arreglo antiguo
+            delete[] llave;
+            // Actualizamos el puntero al nuevo arreglo
+            llave = nueva_llave;
+        }
+        // Agregamos el elemento al arreglo
+        llave[tamano++] = elemento;
     }
 }
+
 
 int encontrarNumeroImparCercanoMayor(int *puntero_llave) {
     unsigned int num1 = *(puntero_llave); // Primer número del arreglo
@@ -149,46 +172,37 @@ void rotar(int **puntero_matriz, int numero_filas){
 
 
 
-// Función para determinar el signo de acuerdo al valor de K
-string determinarSigno(int valor_K) {
-    if (valor_K < 0) {
-        return "<";
-    } else {
-        return ">";
-    }
-}
+// Función para verificar si los valores cumplen con las condiciones dadas por K
+bool verificarValores(int K[], int valores[], int num_valores) {
+    // Obtener las condiciones de K
+    int num_condiciones = num_valores - 1;
+    int* condiciones = K + 2;
 
-// Función para comparar los valores según las reglas dadas por K
-bool compararValores(int K[], int valores[], int tamano_K, int tamano_valores) {
-    if (tamano_valores != tamano_K - 1) {
-        cerr << "Error: El número de valores debe ser igual al número de elementos en K - 1." << endl;
-        return false;
-    }
+    // Verificar las condiciones
+    for (int i = 0; i < num_condiciones; ++i) {
+        int valor_actual = valores[i];
+        int valor_siguiente = valores[i + 1];
+        int condicion = condiciones[i];
 
-    string signo_actual = determinarSigno(K[2]); // Signo del primer valor de K
-    int index_valores = 0;
-
-    for (int i = 0; i < tamano_K - 1; i += 2) {
-        int valor_K = K[i + 1];
-        string signo = determinarSigno(valor_K);
-
-        if (signo != signo_actual) {
+        // Verificar si se cumple la condición
+        if ((condicion == 1 && valor_actual > valor_siguiente) ||
+            (condicion == -1 && valor_actual < valor_siguiente) ||
+            (condicion == 0 && valor_actual == valor_siguiente)) {
+            continue; // Avanzar al siguiente valor
+        } else {
+            // Mostrar el valor que no cumple con la condición y retornar falso
+            cout << "El valor " << valor_actual << " y el "<<valor_siguiente<< " no cumple con la condición." << endl;
+            //la idea es que en este caso se rote la matriz para buscar otro valor
+            // o sea aqui ira la funcion de rotar matriz y obtener nuevos valords
             return false;
+
         }
 
-        signo_actual = (signo_actual == ">") ? "<" : ">"; // Alternamos el signo
-
-        // Se verifica si se cumplen las condiciones con los valores dados
-        if (!((signo == ">" && valores[index_valores] > valores[index_valores + 1]) ||
-              (signo == "<" && valores[index_valores] < valores[index_valores + 1]))) {
-            return false;
-        }
-
-        index_valores++;
     }
-
+    // Si se llega a este punto, significa que todas las condiciones se cumplen
     return true;
 }
+<<<<<<< HEAD
 
 // Función para liberar la memoria dinámica de las matrices
 void liberar_memoria(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices) {
@@ -203,19 +217,18 @@ void liberar_memoria(int ***puntero_candado, int numero_matrices, int *puntero_t
     delete[] puntero_candado; // Liberamos la memoria del triple puntero
 }
 
+=======
+>>>>>>> 8ca239989be54b61109ec6dc25fa671acf936839
 /**
- funcion para saber si la llave abrer el candado dependiendo de los valores y de k
 int main() {
-    // Supongamos que ya tienes el arreglo K y los valores A, B, C y D
-    int K[] = {4, 3, -1, -1, 1}; // Esto corresponde a K(4,3,-1,-1,1)
-    int valores[] = {7, 6, 8, 3}; // A=7, B=6, C=8, D=3
-    int tamano_K = sizeof(K) / sizeof(K[0]);
-    int tamano_valores = sizeof(valores) / sizeof(valores[0]);
+    int K[] = {4, 3, 0, -1, -1, 1}; // Arreglo K(4,3,1,-1,1)
+    int valores[] = {7, 7, 9, 10, 7}; // Valores dados
+    int num_valores = sizeof(valores) / sizeof(valores[0]);
 
-    // Llamamos a la función para comparar los valores
-    bool condicionesCumplidas = compararValores(K, valores, tamano_K, tamano_valores);
+    // Llamamos a la función para verificar los valores
+    bool condicionesCumplidas = verificarValores(K, valores, num_valores);
 
-    // Mostramos el resultado de la comparación
+    // Mostramos el resultado de la verificación
     if (condicionesCumplidas) {
         cout << "Los valores cumplen con las condiciones de K." << endl;
     } else {
@@ -224,7 +237,6 @@ int main() {
 
     return 0;
 }
-
 **/
 
 /*
