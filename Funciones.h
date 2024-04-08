@@ -8,16 +8,15 @@ using namespace std;
 
 //PROTOTIPO DE LAS FUNCIONES
 
-void pedir_llave(int *, int);
+void pedir_llave(int *&, int &);
 int encontrarNumeroImparCercanoMayor(int *); //esta funcion se utiliza para ver la dimension de la primera matriz
 void hallarTamanoDeMatrices(int *, int , int *);
-void crear_punteros_para_matrices(int ***, int, int *);
 void RellenarMatrices(int ***, int , int *);
 void posicionNeutra(int ***, int , int *);
 void rotar(int **, int);
+void hallar_posiciones_matrices(int ***, int, int *,int *);
 
-string determinarSigno(int valor_K);
-bool compararValores(int K[], int valores[], int tamano_K, int tamano_valores);
+bool verificarValores(int , int , int);
 void liberar_memoria(int ***,int , int *);
 
 

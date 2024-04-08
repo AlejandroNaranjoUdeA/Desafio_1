@@ -3,9 +3,7 @@
 //IMPLEMENTACION DE LAS FUNCIONES
 //funcion que se usa por ahora, para llenar los datos de la llave en un arreglo
 
-
-// Función para pedir la llave y almacenarla en un arreglo dinámico
-void pedir_llave(int *llave, int tamano) {
+void pedir_llave(int *&llave, int &tamano){
     int capacidad = 5; // Capacidad inicial del arreglo dinámico
     tamano = 0; // Tamaño actual del arreglo dinámico
 
@@ -32,10 +30,9 @@ void pedir_llave(int *llave, int tamano) {
     }
 }
 
-
-int encontrarNumeroImparCercanoMayor(int *puntero_llave) {
-    unsigned int num1 = *(puntero_llave); // Primer número del arreglo
-    unsigned int num2 = *(puntero_llave+1); // Segundo número del arreglo
+int encontrarNumeroImparCercanoMayor(int *llave) {
+    unsigned int num1 = *(llave); // Primer número del arreglo
+    unsigned int num2 = *(llave+1); // Segundo número del arreglo
 
     unsigned int numeroMayor = (num1 > num2) ? num1 : num2; // Encontrar el número mayor
     unsigned int numeroImpar = (numeroMayor % 2 == 0) ? numeroMayor + 1 : numeroMayor + 2; // Encontrar el próximo número impar mayor
@@ -51,7 +48,7 @@ int encontrarNumeroImparCercanoMayor(int *puntero_llave) {
     return numeroImpar;
 }
 
-void hallarTamanoDeMatrices(int *puntero_llave, int tamano_llave, int *puntero_tamano_matrices) {
+void hallarTamanoDeMatrices(int *llave, int tamano_llave, int *puntero_tamano_matrices) {
 
     /*Se va a determinar el tamaño de las matrices mediante las siguientes condiciones:
 
@@ -65,27 +62,27 @@ void hallarTamanoDeMatrices(int *puntero_llave, int tamano_llave, int *puntero_t
     mas grandes
     */
 
-    unsigned int matrizA= encontrarNumeroImparCercanoMayor(puntero_llave); //Hacemos llamado a la funcion e igualandola a matrizA
+    int matrizA= encontrarNumeroImparCercanoMayor(llave); //Hacemos llamado a la funcion e igualandola a matrizA
 
     *(puntero_tamano_matrices) = matrizA; // llenamos la primera posicion con el valor de matrizA
 
-    unsigned int matrizB = 0; // Inicializamos matrizB con el valor de la segunda matriz
+    int matrizB = 0; // Inicializamos matrizB con el valor de la segunda matriz
 
 
     for(int i = 2; i < tamano_llave ; i++) { // Recorremos hasta el penúltimo elemento de puntero_llave
-        if(puntero_llave[i] == 1) {
-            matrizB = matrizA - 2; // Si puntero_llave[i] es 1, matrizA debe ser mayor que matrizB
+        if(*(llave+i) == 1) {
+            matrizB = max(matrizA - 2, 3); // Si puntero_llave[i] es 1, matrizA debe ser mayor que matrizB o debe ser 3
         }
-        else if(puntero_llave[i] == -1) {
-            matrizB = matrizA + 2; // Si puntero_llave[i] es -1, matrizA debe ser menor que matrizB
+        else if(*(llave+i) == -1) {
+            matrizB = max(matrizA + 2, 3); // Si puntero_llave[i] es -1, matrizA debe ser menor que matrizB o debe ser 3
         }
         // Si puntero_llave[i] es 0, no hacemos cambios en las matrices
-        else if(puntero_llave[i] == 0) {
+        else if(*(llave+i) == 0) {
             // No se hacen cambios en las matrices, matrizA y matrizB conservan sus valores anteriores
         }
 
         matrizA = matrizB; // Ahora matrizA toma el valor de matrizB para el siguiente ciclo
-        *(puntero_tamano_matrices + i + 1) = matrizB; // Guardamos el valor de matrizB en el arreglo de tamaños
+        *(puntero_tamano_matrices + i - 1) = matrizB; // Guardamos el valor de matrizB en el arreglo de tamaños
     }
 }
 
@@ -108,8 +105,6 @@ void crear_punteros_para_matrices(int ***puntero_candado, int numero_matrices, i
     }
 }
 */
-
-//rellena cada una de las matrices desde 1 hasta que se acaben, menos la del centro
 void RellenarMatrices(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices){
     for (int k = 0; k < numero_matrices; k++) { // Iterar sobre cada matriz
         int tamano_matriz = *(puntero_tamano_matrices+k); // Obtener el tamaño de la matriz actual
@@ -117,7 +112,7 @@ void RellenarMatrices(int ***puntero_candado, int numero_matrices, int *puntero_
 
         // Rellenar la matriz actual con números del 1 al tamaño de la matriz
         int contador = 1;
-        for (int i = 0; i < tamano_matriz; i++) {
+        for (int i = 0; i < tamano_matriz; i++) { //
             for (int j = 0; j < tamano_matriz; j++) {
                 if (i == centro && j == centro) {
                     *(*(*(puntero_candado+k)+i)+j) = 0; // Colocar 0 en el centro de la matriz
@@ -127,6 +122,7 @@ void RellenarMatrices(int ***puntero_candado, int numero_matrices, int *puntero_
             }
         }
     }
+
 }
 
 //muestra al programador como estan quedando las matrices
@@ -184,6 +180,13 @@ void rotar(int **puntero_matriz, int numero_filas){
 
 
 
+void hallar_posiciones_matrices(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices,int *llave, int matrizA, int matrizB){
+
+}
+
+
+
+
 
 // Función para verificar si los valores cumplen con las condiciones dadas por K
 bool verificarValores(int K[], int valores[], int num_valores) {
@@ -204,21 +207,18 @@ bool verificarValores(int K[], int valores[], int num_valores) {
             continue; // Avanzar al siguiente valor
         } else {
             // Mostrar el valor que no cumple con la condición y retornar falso
-            cout << "El valor " << valor_actual << " y el "<<valor_siguiente<< " no cumple con la condición." << endl;
-            //la idea es que en este caso se rote la matriz para buscar otro valor
-            // o sea aqui ira la funcion de rotar matriz y obtener nuevos valords
-            return false;
-
+            cout << "El valor " << valor_actual << " no cumple con la condición." << endl;
+                return false;
         }
-
     }
+
     // Si se llega a este punto, significa que todas las condiciones se cumplen
     return true;
 }
 
 // Función para liberar la memoria dinámica de las matrices
-void liberar_memoria(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices) {
-    for (int i = 0; i < numero_matrices; i++) {
+void liberar_memoria(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices){
+    for (int i = 0; i < numero_matrices; i++){
         int tamano_matriz = *(puntero_tamano_matrices+i); // Obtenemos el tamaño de la matriz actual
 
         for (int fila = 0; fila < tamano_matriz; fila++) {
@@ -228,6 +228,7 @@ void liberar_memoria(int ***puntero_candado, int numero_matrices, int *puntero_t
     }
     delete[] puntero_candado; // Liberamos la memoria del triple puntero
 }
+
 
 /**
 int main() {
