@@ -216,27 +216,7 @@ bool verificarValores(int K[], int valores[], int num_valores, int &valor_no_cum
     // Si se llega a este punto, significa que todas las condiciones se cumplen
     return true;
 }
-/**
-int main() {
-    int K[] = {4, 3, 1, -1, 1}; // Arreglo K(4,3,1,-1,1)
-    int valores[] = {8, 5, 7, 3}; // Valores dados
-    int num_valores = sizeof(valores) / sizeof(valores[0]);
 
-    int valor1, valor2;
-    // Llamamos a la función para verificar los valores
-    bool condicionesCumplidas = verificarValores(K, valores, num_valores, valor1, valor2);
-
-    // Mostramos el resultado de la verificación
-    if (condicionesCumplidas) {
-        cout << "Los valores cumplen con las condiciones de K." << endl;
-    } else {
-        cout << "Los valores no cumplen con las condiciones de la llave" << endl;
-        cout << "Los valores que no cumplen son: " << valor1 << " y " << valor2 << endl;
-    }
-
-    return 0;
-}
-**/
 
 // Función para liberar la memoria dinámica de las matrices
 void liberar_memoria(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices){
