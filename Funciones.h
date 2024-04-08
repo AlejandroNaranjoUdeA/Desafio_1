@@ -16,7 +16,8 @@ void posicionNeutra(int ***, int , int *);
 void rotar(int **, int);
 void hallar_posiciones_matrices(int ***, int, int *,int *);
 
-bool verificarValores(int , int , int);
+bool verificarValores(int, int , int , int &, int &);
+
 void liberar_memoria(int ***,int , int *);
 
 

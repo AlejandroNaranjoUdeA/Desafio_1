@@ -189,7 +189,7 @@ void hallar_posiciones_matrices(int ***puntero_candado, int numero_matrices, int
 
 
 // Función para verificar si los valores cumplen con las condiciones dadas por K
-bool verificarValores(int K[], int valores[], int num_valores) {
+bool verificarValores(int K[], int valores[], int num_valores, int &valor_no_cumple1, int &valor_no_cumple2) {
     // Obtener las condiciones de K
     int num_condiciones = num_valores - 1;
     int* condiciones = K + 2;
@@ -206,15 +206,37 @@ bool verificarValores(int K[], int valores[], int num_valores) {
             (condicion == 0 && valor_actual == valor_siguiente)) {
             continue; // Avanzar al siguiente valor
         } else {
-            // Mostrar el valor que no cumple con la condición y retornar falso
-            cout << "El valor " << valor_actual << " no cumple con la condición." << endl;
-                return false;
+            // Almacena los valores que no cumplen la condición y devuelve false
+            valor_no_cumple1 = valor_actual;
+            valor_no_cumple2 = valor_siguiente;
+            return false;
         }
     }
 
     // Si se llega a este punto, significa que todas las condiciones se cumplen
     return true;
 }
+/**
+int main() {
+    int K[] = {4, 3, 1, -1, 1}; // Arreglo K(4,3,1,-1,1)
+    int valores[] = {8, 5, 7, 3}; // Valores dados
+    int num_valores = sizeof(valores) / sizeof(valores[0]);
+
+    int valor1, valor2;
+    // Llamamos a la función para verificar los valores
+    bool condicionesCumplidas = verificarValores(K, valores, num_valores, valor1, valor2);
+
+    // Mostramos el resultado de la verificación
+    if (condicionesCumplidas) {
+        cout << "Los valores cumplen con las condiciones de K." << endl;
+    } else {
+        cout << "Los valores no cumplen con las condiciones de la llave" << endl;
+        cout << "Los valores que no cumplen son: " << valor1 << " y " << valor2 << endl;
+    }
+
+    return 0;
+}
+**/
 
 // Función para liberar la memoria dinámica de las matrices
 void liberar_memoria(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices){
@@ -230,29 +252,4 @@ void liberar_memoria(int ***puntero_candado, int numero_matrices, int *puntero_t
 }
 
 
-/**
-int main() {
-    int K[] = {4, 3, 0, -1, -1, 1}; // Arreglo K(4,3,1,-1,1)
-    int valores[] = {7, 7, 9, 10, 7}; // Valores dados
-    int num_valores = sizeof(valores) / sizeof(valores[0]);
 
-    // Llamamos a la función para verificar los valores
-    bool condicionesCumplidas = verificarValores(K, valores, num_valores);
-
-    // Mostramos el resultado de la verificación
-    if (condicionesCumplidas) {
-        cout << "Los valores cumplen con las condiciones de K." << endl;
-    } else {
-        cout << "Los valores no cumplen con las condiciones de K." << endl;
-    }
-
-    return 0;
-}
-**/
-
-/*
-for(int k=0; k<4; k++){ //la
-    for(int i=0; i<numero_filas; i++){
-        for(int j=0; j<numero_columnas; j++)
-            *(*(*(puntero+k)+i)+j);
-*/
