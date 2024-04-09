@@ -16,7 +16,7 @@ int main(){
     }
     cout << endl;
 
-    //creamos un arreglo para reservar los tamaños de las matricesÑ
+    //creamos un arreglo para reservar los tamaños de las matrices
     int *puntero_tamano_matrices;
 
     //se declara una variable que me va a guardar el numero de matrices necesarias para el candado

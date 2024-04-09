@@ -2,7 +2,6 @@
 #define FUNCIONES_H
 #include<iostream>
 #include<stdlib.h> //libreria para new y delete:
-#include<algorithm> //libreria utilizada en hallarTamanoDeMatrices, usando la funcion max(a,b)
 
 using namespace std;
 

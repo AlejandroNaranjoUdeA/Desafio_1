@@ -78,10 +78,10 @@ void hallarTamanoDeMatrices(int *llave, int tamano_llave, int *puntero_tamano_ma
 
     for(int i = 2; i < tamano_llave ; i++) { // Recorremos hasta el penúltimo elemento de puntero_llave
         if(*(llave+i) == 1) {
-            matrizB = max(matrizA - 2, *(puntero_tamano_matrices)); // Si puntero_llave[i] es 1, matrizA debe ser mayor que matrizB o debe ser el primer tamano de la primera matriz, ya que esta este es el minimo tamaño de una matriz para la posicion que nos dan
+           matrizB = (matrizA - 2 > *(puntero_tamano_matrices)) ? matrizA - 2 : *(puntero_tamano_matrices) ; // Si puntero_llave[i] es 1, matrizA debe ser mayor que matrizB o debe ser el primer tamano de la primera matriz, ya que esta este es el minimo tamaño de una matriz para la posicion que nos dan
         }
         else if(*(llave+i) == -1) {
-            matrizB = max(matrizA + 2, *(puntero_tamano_matrices)); // Si puntero_llave[i] es -1, matrizA debe ser menor que matrizB o debe ser el primer tamano de la primera matriz, ya que esta este es el minimo tamaño de una matriz para la posicion que nos dan
+            matrizB = (matrizA + 2 > *(puntero_tamano_matrices)) ? matrizA + 2 : *(puntero_tamano_matrices) ; // Si puntero_llave[i] es -1, matrizA debe ser menor que matrizB o debe ser el primer tamano de la primera matriz, ya que esta este es el minimo tamaño de una matriz para la posicion que nos dan
         }
         // Si puntero_llave[i] es 0, no hacemos cambios en las matrices
         else if(*(llave+i) == 0) {
@@ -179,7 +179,7 @@ void hallar_valores_matrices(int ***puntero_candado, int numero_matrices, int *p
             fila_segunda_matriz= (*(llave+k) + ((*(puntero_tamano_matrices+ k + 1))-(*(puntero_tamano_matrices + k))) / 2);
 
             //hallamos la posicion de columna de la segunda matriz como:
-            ////columa_segunda_matriz= columna_primera_matriz + (tamano_segunda_matriz - tamano_primera_matriz) / 2
+            //columa_segunda_matriz= columna_primera_matriz + (tamano_segunda_matriz - tamano_primera_matriz) / 2
             columna_segunda_matriz= (*(llave+ k + 1) + ((*(puntero_tamano_matrices+ k + 1)) - (*(puntero_tamano_matrices + k))) / 2);
 
             //HALLAMOS EL VALOR DE LA MATRIZ
@@ -226,7 +226,7 @@ void hallar_valores_matrices(int ***puntero_candado, int numero_matrices, int *p
             //calculamos el primer valor de la primera matriz como:
             //aclaracion, esta solo es de la primera matriz, las otras no.
             //valor1= *(*(*(puntero_candado+k)+fila_primera_matriz)+ columna_primera_matriz)
-            valor1= *(*(*(puntero_candado + k)+ *(llave+k) - 1)+ *(llave + k + 1) - 1);
+            valor1= *(*(*(puntero_candado + k)+ *(llave+k) - 1) + *(llave + k + 1) - 1);
 
             //calculamos el valor de la segunda matriz:
             valor2= *(*(*(puntero_candado + k + 1)+fila_segunda_matriz - 1)+columna_segunda_matriz - 1);
@@ -253,7 +253,7 @@ void hallar_valores_matrices(int ***puntero_candado, int numero_matrices, int *p
             fila_segunda_matriz= (fila_primera_matriz + ((*(puntero_tamano_matrices+ k + 1))-(*(puntero_tamano_matrices + k))) / 2);
 
             //hallamos la posicion de columna de la segunda matriz como:
-            ////columa_segunda_matriz= columna_primera_matriz + (tamano_segunda_matriz - tamano_primera_matriz) / 2
+            //columa_segunda_matriz= columna_primera_matriz + (tamano_segunda_matriz - tamano_primera_matriz) / 2
             columna_segunda_matriz= (columna_primera_matriz + ((*(puntero_tamano_matrices+ k + 1)) - (*(puntero_tamano_matrices + k))) / 2);
 
             //HALLAMOS EL VALOR DE LA MATRIZ B:
