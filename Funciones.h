@@ -22,6 +22,12 @@ void verificarValores(int ***, int , int *, int *, unsigned int &, unsigned int 
 //Funcion principal
 void comparar_Matrices(int ***, int , int *, int *, int);
 
+<<<<<<< HEAD
+=======
+bool verificarValores(int, int , int , int &, int &);
+
+void liberar_memoria(int ***,int , int *);
+>>>>>>> b4060e9770a3ecbcd61b7f2caabfdec46eacb0d4
 
 
 

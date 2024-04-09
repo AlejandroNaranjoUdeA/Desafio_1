@@ -298,9 +298,17 @@ void hallar_valores_matrices(int ***puntero_candado, int numero_matrices, int *p
 
 
 // Función para verificar si los valores cumplen con las condiciones dadas por K
+<<<<<<< HEAD
 void verificarValores(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices, int *llave, unsigned int &valor1, unsigned int &valor2, int tamano_llave, int k,unsigned int &fila_segunda_matriz, unsigned int &columna_segunda_matriz){
+=======
+bool verificarValores(int K[], int valores[], int num_valores, int &valor_no_cumple1, int &valor_no_cumple2) {
+    // Obtener las condiciones de K
+    int num_condiciones = num_valores - 1;
+    int* condiciones = K + 2;
+>>>>>>> b4060e9770a3ecbcd61b7f2caabfdec46eacb0d4
 
 
+<<<<<<< HEAD
     unsigned int contador = 0;
     if(*(llave+2+k)==1 ){
         while(valor1<=valor2){ // si valor 1 es menor que valor 2
@@ -337,12 +345,25 @@ void verificarValores(int ***puntero_candado, int numero_matrices, int *puntero_
                 return ; // finaliza el programa
             }
 
+=======
+        // Verificar si se cumple la condición
+        if ((condicion == 1 && valor_actual > valor_siguiente) ||
+            (condicion == -1 && valor_actual < valor_siguiente) ||
+            (condicion == 0 && valor_actual == valor_siguiente)) {
+            continue; // Avanzar al siguiente valor
+        } else {
+            // Almacena los valores que no cumplen la condición y devuelve false
+            valor_no_cumple1 = valor_actual;
+            valor_no_cumple2 = valor_siguiente;
+            return false;
+>>>>>>> b4060e9770a3ecbcd61b7f2caabfdec46eacb0d4
         }
     }
 
     else if(*(llave+2+k)== 0){
         while(valor1!=valor2){
 
+<<<<<<< HEAD
             contador++;
 
             //llamamos a la funcion rotar
@@ -355,6 +376,13 @@ void verificarValores(int ***puntero_candado, int numero_matrices, int *puntero_
                 cout<<"\n\nEl candado no ha sido abierto."<<endl<<endl;
                 return ; // finaliza el programa
             }
+=======
+
+// Función para liberar la memoria dinámica de las matrices
+void liberar_memoria(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices){
+    for (int i = 0; i < numero_matrices; i++){
+        int tamano_matriz = *(puntero_tamano_matrices+i); // Obtenemos el tamaño de la matriz actual
+>>>>>>> b4060e9770a3ecbcd61b7f2caabfdec46eacb0d4
 
         }
 
@@ -362,6 +390,7 @@ void verificarValores(int ***puntero_candado, int numero_matrices, int *puntero_
 }
 
 
+<<<<<<< HEAD
 void comparar_Matrices(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices, int *llave, int tamano_llave){
 
     unsigned int fila_segunda_matriz, columna_segunda_matriz, valor1, valor2 ;
@@ -384,3 +413,6 @@ void comparar_Matrices(int ***puntero_candado, int numero_matrices, int *puntero
 
 
 
+=======
+
+>>>>>>> b4060e9770a3ecbcd61b7f2caabfdec46eacb0d4
