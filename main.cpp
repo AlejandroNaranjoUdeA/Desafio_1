@@ -59,28 +59,6 @@ int main(){
         }
         delete[] puntero_candado[i]; // Liberamos la memoria de la matriz en sí
     }
-    /**
-int main() {
-    int K[] = {4, 3, 1, -1, 1}; // Arreglo K(4,3,1,-1,1) osea llave
-    int valores[] = {8, 5, 7, 3}; // Valores dados
-    int num_valores = sizeof(valores) / sizeof(valores[0]);
-
-    int valor1, valor2;
-    // Llamamos a la función para verificar los valores
-    bool condicionesCumplidas = verificarValores(K, valores, num_valores, valor1, valor2);
-
-    // Mostramos el resultado de la verificación
-    if (condicionesCumplidas) {
-        cout << "Los valores cumplen con las condiciones de K." << endl;
-    } else {
-        cout << "Los valores no cumplen con las condiciones de la llave" << endl;
-        cout << "Los valores que no cumplen son: " << valor1 << " y " << valor2 << endl;
-        //invocamos funcion para cambiar los valores y rotar las matrices
-    }
-
-
-}
-**/
     delete[] puntero_candado; // Liberamos la memoria del triple puntero
 
     //liberamos memoria dinamica para el puntero del tamaño de las matrices
