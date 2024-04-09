@@ -9,13 +9,10 @@ int main(){
     // Pedimos y almacenamos la llave
     pedir_llave(llave, tamano_llave);
 
-    // Mostramos el tamaño del arreglo dinámico
-    cout << "El tamano de la llave es: " << tamano_llave << endl;
-
     // Imprimimos la llave
     cout << "La llave ingresada es: ";
     for (int i = 0; i < tamano_llave; ++i) {
-        cout << llave[i] << " ";
+        cout << *(llave+i) << " ";
     }
     cout << endl;
 
@@ -51,20 +48,8 @@ int main(){
     //llamamos a la funcion para que nos rellene todas las matrices menos el centro
     RellenarMatrices(puntero_candado,numero_matrices,puntero_tamano_matrices);
 
-    //llamamos a la funcion neutra para que me muestre como quedaron las matrices:
-    posicionNeutra(puntero_candado,numero_matrices,puntero_tamano_matrices);
-
-
-    unsigned int numero_filas;
-    cout<<"Ingrese el numero de filas de la matriz: ";
-    cin>>numero_filas;
-
-    while(numero_filas%2==0){
-        cout<<"Ingrese un numero impar de filas de la matriz: ";
-        cin>>numero_filas;
-    }
-
-    liberar_memoria(puntero_candado,numero_matrices,puntero_tamano_matrices);
+    //llamamos a la funcion principal que nos indica cual es el candado:
+    comparar_Matrices(puntero_candado,numero_matrices,puntero_tamano_matrices,llave, tamano_llave);
 
     for (int i = 0; i < numero_matrices; i++) {
         int tamano_matriz = *(puntero_tamano_matrices+i); // Obtenemos el tamaño de la matriz actual
@@ -81,22 +66,6 @@ int main(){
 
     // Liberamos la memoria del arreglo dinámico
     delete[] llave;
-    /**
-    int K[] = {4, 3, -1, -1, 1}; // Esto corresponde a K(4,3,-1,-1,1)
-    int valores[] = {7, 6, 8, 3}; // A=7, B=6, C=8, D=3
-    int tamano_K = sizeof(K) / sizeof(K[0]);
-    int tamano_valores = sizeof(valores) / sizeof(valores[0]);
 
-    // Llamamos a la función para comparar los valores
-    bool condicionesCumplidas = compararValores(K, valores, tamano_K, tamano_valores);
-
-    // Mostramos el resultado de la comparación
-    if (condicionesCumplidas) {
-        cout << "Los valores cumplen con las condiciones de K." << endl;
-    } else {
-        cout << "Los valores no cumplen con las condiciones de K." << endl;
-    }
-**/
     return 0;
 }
-

@@ -1,8 +1,5 @@
 #include"Funciones.h"
 
-//IMPLEMENTACION DE LAS FUNCIONES
-//funcion que se usa por ahora, para llenar los datos de la llave en un arreglo
-
 void pedir_llave(int *&llave, int &tamano){
     int capacidad = 5; // Capacidad inicial del arreglo dinámico
     tamano = 0; // Tamaño actual del arreglo dinámico
@@ -34,8 +31,18 @@ int encontrarNumeroImparCercanoMayor(int *llave) {
     unsigned int num1 = *(llave); // Primer número del arreglo
     unsigned int num2 = *(llave+1); // Segundo número del arreglo
 
-    unsigned int numeroMayor = (num1 > num2) ? num1 : num2; // Encontrar el número mayor
-    unsigned int numeroImpar = (numeroMayor % 2 == 0) ? numeroMayor + 1 : numeroMayor + 2; // Encontrar el próximo número impar mayor
+    unsigned int numeroImpar;
+
+    if(*(llave) % 2 == 1){
+        numeroImpar = *(llave);
+    }
+    else if(*(llave+1) % 2 == 1){
+        numeroImpar= *(llave+1);
+    }
+    else{
+        unsigned int numeroMayor = (num1 >= num2) ? num1 : num2; // Encontrar el número mayor
+        numeroImpar = (numeroMayor % 2 == 0) ? numeroMayor + 1 : numeroMayor + 2; // Encontrar el próximo número impar mayor
+    }
 
     /*
     como funciona el ?
@@ -71,10 +78,10 @@ void hallarTamanoDeMatrices(int *llave, int tamano_llave, int *puntero_tamano_ma
 
     for(int i = 2; i < tamano_llave ; i++) { // Recorremos hasta el penúltimo elemento de puntero_llave
         if(*(llave+i) == 1) {
-            matrizB = max(matrizA - 2, 3); // Si puntero_llave[i] es 1, matrizA debe ser mayor que matrizB o debe ser 3
+            matrizB = max(matrizA - 2, *(puntero_tamano_matrices)); // Si puntero_llave[i] es 1, matrizA debe ser mayor que matrizB o debe ser el primer tamano de la primera matriz, ya que esta este es el minimo tamaño de una matriz para la posicion que nos dan
         }
         else if(*(llave+i) == -1) {
-            matrizB = max(matrizA + 2, 3); // Si puntero_llave[i] es -1, matrizA debe ser menor que matrizB o debe ser 3
+            matrizB = max(matrizA + 2, *(puntero_tamano_matrices)); // Si puntero_llave[i] es -1, matrizA debe ser menor que matrizB o debe ser el primer tamano de la primera matriz, ya que esta este es el minimo tamaño de una matriz para la posicion que nos dan
         }
         // Si puntero_llave[i] es 0, no hacemos cambios en las matrices
         else if(*(llave+i) == 0) {
@@ -86,25 +93,7 @@ void hallarTamanoDeMatrices(int *llave, int tamano_llave, int *puntero_tamano_ma
     }
 }
 
-// Esta funcion llama a un triple puntero y reserva memoria dinamica para cada una de las matrices
-/*
-void crear_punteros_para_matrices(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices) {
 
-    // Reservamos memoria dinámica para el triple puntero
-    puntero_candado = new int **[numero_matrices];
-
-    // Reservamos memoria dinámica para las matrices
-    for (int i = 0; i < numero_matrices; i++) {
-        int tamano_matriz = puntero_tamano_matrices[i]; // Obtenemos el tamaño de la matriz actual
-
-        // Reservamos memoria dinámica para las filas y columnas de la matriz actual
-        puntero_candado[i] = new int *[tamano_matriz];
-        for (int j = 0; j < tamano_matriz; j++) {
-            puntero_candado[i][j] = new int[tamano_matriz];
-        }
-    }
-}
-*/
 void RellenarMatrices(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices){
     for (int k = 0; k < numero_matrices; k++) { // Iterar sobre cada matriz
         int tamano_matriz = *(puntero_tamano_matrices+k); // Obtener el tamaño de la matriz actual
@@ -126,6 +115,7 @@ void RellenarMatrices(int ***puntero_candado, int numero_matrices, int *puntero_
 }
 
 //muestra al programador como estan quedando las matrices
+/*
 void posicionNeutra(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices){
 
     for (int k = 0; k < numero_matrices; k++) { // Iterar sobre cada matriz
@@ -147,112 +137,250 @@ void posicionNeutra(int ***puntero_candado, int numero_matrices, int *puntero_ta
         cout << endl <<endl <<endl;
     }
 }
+*/
 
-
-void rotar(int **puntero_matriz, int numero_filas){
-
-    //transponer matriz:
-    for(int i=0; i<numero_filas; i++){
-        for(int j=i+1; j<numero_filas; j++){
-            int temp = *(*(puntero_matriz + i) + j);
-            *(*(puntero_matriz + i) + j) = *(*(puntero_matriz + j) + i);
-            *(*(puntero_matriz + j) + i) = temp;        }
-    }
-
-    for(int i=0; i<numero_filas/2; i++){
-        swap(*(puntero_matriz + i), *(puntero_matriz + numero_filas - i - 1));
-    }
-
-    for(int i=0; i<numero_filas; i++){
-        for(int j=0; j<numero_filas; j++){
-            if(*(*(puntero_matriz+i)+j)>=10){
-                cout<<*(*(puntero_matriz+i)+j)<<"    ";
-
-            }
-            else{
-                cout<<*(*(puntero_matriz+i)+j)<<"     ";
-
-            }
+void rotar(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices, int k, int contador){
+    // Transponer matriz
+    int tamano = *(puntero_tamano_matrices + k + 1);
+    for(int i=0; i<tamano; i++){
+        for(int j=i+1; j<tamano; j++){
+            swap(*(*(*(puntero_candado + k+1) + i) + j), *(*(*(puntero_candado + k) + j) + i));
         }
-        cout<<endl<<endl<<endl;
+    }
+    //cambia las filas, la primera por la ultima, la segunda con la penultima, la tercera con la antepenultima, etc
+    //es decir, 1 la cambia por n-1, la 2 por n-2, etc.
+
+    // Cambiar las filas, la primera por la ultima, la segunda por la penultima, etc.
+    for(int i=0; i<tamano/2; i++){
+        swap(*(*(puntero_candado + k + 1) + i), (*(*(puntero_candado + k + 1) + tamano - i - 1)));
+
+    }
+
+    //mostramos en consola para ver si esta buena la rotacion:
+
+    if(contador==1 || contador==2 ||contador==3){
+        cout<<"\nRotando la matriz "<<k + 2<<" en rotacion "<<contador<<endl<<endl;
     }
 }
 
 
 
-void hallar_posiciones_matrices(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices,int *llave, int matrizA, int matrizB){
+void hallar_valores_matrices(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices,int *llave, int k, unsigned int &fila_segunda_matriz, unsigned int &columna_segunda_matriz, unsigned int &valor1, unsigned int &valor2){
 
+    if(k==0){ //en caso de que estemos trabajando con la primera matriz: se sacan la fila y la columna que nos dan en *llave
+
+        //si el tamano de la matrizA es menor que el de la matriz B:
+        if(*(puntero_tamano_matrices+k) < *(puntero_tamano_matrices + k + 1)){
+
+            //HALLAMOS LAS POSICIN FILA Y COLUMNA
+
+            //hallamos la posicion de fila de la segunda matriz como:
+            //fila_segunda_matriz= fila_primera_matriz + (tamano_segunda_matriz - tamano_primera_matriz) / 2
+            fila_segunda_matriz= (*(llave+k) + ((*(puntero_tamano_matrices+ k + 1))-(*(puntero_tamano_matrices + k))) / 2);
+
+            //hallamos la posicion de columna de la segunda matriz como:
+            ////columa_segunda_matriz= columna_primera_matriz + (tamano_segunda_matriz - tamano_primera_matriz) / 2
+            columna_segunda_matriz= (*(llave+ k + 1) + ((*(puntero_tamano_matrices+ k + 1)) - (*(puntero_tamano_matrices + k))) / 2);
+
+            //HALLAMOS EL VALOR DE LA MATRIZ
+
+            //calculamos el primer valor de la primera matriz como:
+            //aclaracion, esta solo es de la primera matriz, las otras no.
+            //valor1= *(*(*(puntero_candado+k)+fila_primera_matriz)+ columna_primera_matriz)
+            valor1= *(*(*(puntero_candado + k)+ *(llave+k) - 1)+ *(llave + k + 1) - 1); //se agrega el -1 ya que empezamos las posiciones desde 1 y no desde 0
+
+            //calculamos el valor de la segunda matriz:
+            valor2= *(*(*(puntero_candado + k + 1)+fila_segunda_matriz - 1)+columna_segunda_matriz - 1);
+        }
+
+        //si el tamano de la matriz A es mayor que el de la matriz B:
+        else if(*(puntero_tamano_matrices+k) > *(puntero_tamano_matrices + k + 1)){
+
+            //HALLAMOS LAS POSICIN FILA Y COLUMNA
+
+            //hallamos la posicion de la fila de la segunda_matriz como:
+            //fila_segunda_matriz= tamano_segunda_matriz / 2 -((tamano_primera_matriz/2) - fila_primera_matriz)
+            fila_segunda_matriz= (*(puntero_tamano_matrices + k + 1) / 2 - ((*(puntero_tamano_matrices+k) / 2) - *(llave+k))) ;
+
+            //hallamos la posicion de la columna de la segunda matriz como:
+            //columa_segunda_matriz= tamano_segunda_matriz / 2 -((tamano_primera_matriz/2) - columna_primera_matriz)
+            columna_segunda_matriz= (*(puntero_tamano_matrices + k + 1) / 2 - ((*(puntero_tamano_matrices+k) / 2) - *(llave + k + 1)));
+
+            //HALLAMOS EL VALOR DE LA MATRIZ
+
+            //calculamos el primer valor de la primera matriz como:
+            //aclaracion, esta solo es de la primera matriz, las otras no.
+            //valor1= *(*(*(puntero_candado+k)+fila_primera_matriz)+ columna_primera_matriz)
+            valor1= *(*(*(puntero_candado + k)+ *(llave+k) - 1)+ *(llave + k + 1) - 1);
+
+            //calculamos el valor de la segunda matriz:
+            valor2= *(*(*(puntero_candado + k + 1) + fila_segunda_matriz - 1)+columna_segunda_matriz - 1);
+        }
+
+        //si el tamano de la matriz A es igual que el de la matriz B:
+        else if(*(puntero_tamano_matrices+k) == *(puntero_tamano_matrices + k + 1)){
+
+            fila_segunda_matriz= *(llave+k);
+            columna_segunda_matriz = *(llave + k + 1);
+
+            //calculamos el primer valor de la primera matriz como:
+            //aclaracion, esta solo es de la primera matriz, las otras no.
+            //valor1= *(*(*(puntero_candado+k)+fila_primera_matriz)+ columna_primera_matriz)
+            valor1= *(*(*(puntero_candado + k)+ *(llave+k) - 1)+ *(llave + k + 1) - 1);
+
+            //calculamos el valor de la segunda matriz:
+            valor2= *(*(*(puntero_candado + k + 1)+fila_segunda_matriz - 1)+columna_segunda_matriz - 1);
+
+        }
+    }
+
+    //en caso de que k sea mayor a 0:
+    else if(k>0){
+
+        //cambiamos los valores de fila_segunda_matriz para fila_primera_matriz, lo mismo con la columna
+        unsigned int fila_primera_matriz = fila_segunda_matriz;
+        unsigned int columna_primera_matriz = columna_segunda_matriz;
+
+        valor1= valor2;
+
+        //si el tamano de la matrizA es menor que el de la matriz B:
+        if(*(puntero_tamano_matrices+k) < *(puntero_tamano_matrices + k + 1)){
+
+            //HALLAMOS LAS POSICIN FILA Y COLUMNA
+
+            //hallamos la posicion de fila de la segunda matriz como:
+            //fila_segunda_matriz= fila_primera_matriz + (tamano_segunda_matriz - tamano_primera_matriz) / 2
+            fila_segunda_matriz= (fila_primera_matriz + ((*(puntero_tamano_matrices+ k + 1))-(*(puntero_tamano_matrices + k))) / 2);
+
+            //hallamos la posicion de columna de la segunda matriz como:
+            ////columa_segunda_matriz= columna_primera_matriz + (tamano_segunda_matriz - tamano_primera_matriz) / 2
+            columna_segunda_matriz= (columna_primera_matriz + ((*(puntero_tamano_matrices+ k + 1)) - (*(puntero_tamano_matrices + k))) / 2);
+
+            //HALLAMOS EL VALOR DE LA MATRIZ B:
+
+            //calculamos el valor de la segunda matriz:
+            valor2= *(*(*(puntero_candado + k + 1)+fila_segunda_matriz- 1)+columna_segunda_matriz - 1);
+        }
+
+        //si el tamano de la matriz A es mayor que el de la matriz B:
+        else if(*(puntero_tamano_matrices+k) > *(puntero_tamano_matrices + k + 1)){
+
+            //HALLAMOS LAS POSICIN FILA Y COLUMNA
+
+            //hallamos la posicion de la fila de la segunda_matriz como:
+            //fila_segunda_matriz= tamano_segunda_matriz / 2 -((tamano_primera_matriz/2) - fila_primera_matriz)
+            fila_segunda_matriz= (*(puntero_tamano_matrices + k + 1) / 2 - ((*(puntero_tamano_matrices+k) / 2) - fila_primera_matriz));
+
+            //hallamos la posicion de la columna de la segunda matriz como:
+            //columa_segunda_matriz= tamano_segunda_matriz / 2 -((tamano_primera_matriz/2) - columna_primera_matriz)
+            columna_segunda_matriz= (*(puntero_tamano_matrices + k + 1) / 2 - ((*(puntero_tamano_matrices+k) / 2) - columna_primera_matriz));
+
+            //HALLAMOS EL VALOR DE LA MATRIZB:
+
+            //calculamos el valor de la segunda matriz:
+            valor2= *(*(*(puntero_candado + k + 1)+fila_segunda_matriz - 1)+columna_segunda_matriz - 1);
+        }
+
+        //si el tamano de la matriz A es igual que el de la matriz B:
+        else if(*(puntero_tamano_matrices+k) == *(puntero_tamano_matrices + k + 1)){
+            fila_segunda_matriz= fila_primera_matriz;
+            columna_segunda_matriz = columna_primera_matriz;
+
+            //calculamos el valor de la segunda matriz:
+            valor2= *(*(*(puntero_candado + k + 1)+fila_segunda_matriz - 1 )+columna_segunda_matriz - 1);
+        }
+    }
 }
+
 
 
 
 
 
 // Función para verificar si los valores cumplen con las condiciones dadas por K
-bool verificarValores(int K[], int valores[], int num_valores) {
-    // Obtener las condiciones de K
-    int num_condiciones = num_valores - 1;
-    int* condiciones = K + 2;
+void verificarValores(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices, int *llave, unsigned int &valor1, unsigned int &valor2, int tamano_llave, int k,unsigned int &fila_segunda_matriz, unsigned int &columna_segunda_matriz){
 
-    // Verificar las condiciones
-    for (int i = 0; i < num_condiciones; ++i) {
-        int valor_actual = valores[i];
-        int valor_siguiente = valores[i + 1];
-        int condicion = condiciones[i];
 
-        // Verificar si se cumple la condición
-        if ((condicion == 1 && valor_actual > valor_siguiente) ||
-            (condicion == -1 && valor_actual < valor_siguiente) ||
-            (condicion == 0 && valor_actual == valor_siguiente)) {
-            continue; // Avanzar al siguiente valor
-        } else {
-            // Mostrar el valor que no cumple con la condición y retornar falso
-            cout << "El valor " << valor_actual << " no cumple con la condición." << endl;
-                return false;
+    unsigned int contador = 0;
+    if(*(llave+2+k)==1 ){
+        while(valor1<=valor2){ // si valor 1 es menor que valor 2
+
+            contador++;
+
+            //llamamos a la funcion rotar
+            rotar(puntero_candado, numero_matrices, puntero_tamano_matrices, k, contador);
+            // se halla de nuevo las posiciones:
+            hallar_valores_matrices(puntero_candado, numero_matrices, puntero_tamano_matrices, llave,k, fila_segunda_matriz, columna_segunda_matriz, valor1, valor2);
+
+            //hacemos una condicion, si contador llega a 3, es decir, ya se roto 3 veces la matriz y no se encontro, se termina el codigo
+            if(contador>3){
+                cout<<"\n\nEl candado no ha sido abierto."<<endl<<endl;
+                return ; // finaliza el programa
+            }
+
+        }
+
+    }
+    else if(*(llave+2+k)== -1){
+        while(valor1>=valor2){ // si valor 1 es mayor que valor 2
+
+            contador++;
+
+            //llamamos a la funcion rotar
+            rotar(puntero_candado, numero_matrices, puntero_tamano_matrices, k, contador);
+            // se halla de nuevo las posiciones:
+            hallar_valores_matrices(puntero_candado, numero_matrices, puntero_tamano_matrices, llave,k, fila_segunda_matriz, columna_segunda_matriz, valor1, valor2);
+
+            //hacemos una condicion, si contador llega a 3, es decir, ya se roto 3 veces la matriz y no se encontro, se termina el codigo
+            if(contador>3){
+                cout<<"\n\nEl candado no ha sido abierto."<<endl<<endl;
+                return ; // finaliza el programa
+            }
+
         }
     }
 
-    // Si se llega a este punto, significa que todas las condiciones se cumplen
-    return true;
-}
+    else if(*(llave+2+k)== 0){
+        while(valor1!=valor2){
 
-// Función para liberar la memoria dinámica de las matrices
-void liberar_memoria(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices){
-    for (int i = 0; i < numero_matrices; i++){
-        int tamano_matriz = *(puntero_tamano_matrices+i); // Obtenemos el tamaño de la matriz actual
+            contador++;
 
-        for (int fila = 0; fila < tamano_matriz; fila++) {
-            delete[] puntero_candado[i][fila]; // Liberamos la memoria de cada fila de la matriz
+            //llamamos a la funcion rotar
+            rotar(puntero_candado, numero_matrices, puntero_tamano_matrices, k, contador);
+            // se halla de nuevo las posiciones:
+            hallar_valores_matrices(puntero_candado, numero_matrices, puntero_tamano_matrices, llave,k, fila_segunda_matriz, columna_segunda_matriz, valor1, valor2);
+
+            //hacemos una condicion, si contador llega a 3, es decir, ya se roto 3 veces la matriz y no se encontro, se termina el codigo
+            if(contador>3){
+                cout<<"\n\nEl candado no ha sido abierto."<<endl<<endl;
+                return ; // finaliza el programa
+            }
+
         }
-        delete[] puntero_candado[i]; // Liberamos la memoria de la matriz en sí
+
     }
-    delete[] puntero_candado; // Liberamos la memoria del triple puntero
 }
 
 
-/**
-int main() {
-    int K[] = {4, 3, 0, -1, -1, 1}; // Arreglo K(4,3,1,-1,1)
-    int valores[] = {7, 7, 9, 10, 7}; // Valores dados
-    int num_valores = sizeof(valores) / sizeof(valores[0]);
+void comparar_Matrices(int ***puntero_candado, int numero_matrices, int *puntero_tamano_matrices, int *llave, int tamano_llave){
 
-    // Llamamos a la función para verificar los valores
-    bool condicionesCumplidas = verificarValores(K, valores, num_valores);
+    unsigned int fila_segunda_matriz, columna_segunda_matriz, valor1, valor2 ;
 
-    // Mostramos el resultado de la verificación
-    if (condicionesCumplidas) {
-        cout << "Los valores cumplen con las condiciones de K." << endl;
-    } else {
-        cout << "Los valores no cumplen con las condiciones de K." << endl;
+    for(int k=0; k<numero_matrices - 1; k++){ //se hace numero_matrices - 1, ya que la ultima no se compara con nada.
+
+        // se halla la posicion para la matriz siguiente:
+        hallar_valores_matrices(puntero_candado, numero_matrices, puntero_tamano_matrices, llave,k, fila_segunda_matriz, columna_segunda_matriz, valor1, valor2);
+
+        // se comparan los 2 valores:
+        verificarValores(puntero_candado, numero_matrices, puntero_tamano_matrices, llave, valor1, valor2, tamano_llave, k, fila_segunda_matriz, columna_segunda_matriz);
     }
 
-    return 0;
+    cout<<"\n\nEl candado para la llave ingresada es: "<<endl<<endl;
+    for(int i=0; i<numero_matrices; i++){
+        cout<<*(puntero_tamano_matrices+i)<<", ";
+    }
 }
-**/
 
-/*
-for(int k=0; k<4; k++){ //la
-    for(int i=0; i<numero_filas; i++){
-        for(int j=0; j<numero_columnas; j++)
-            *(*(*(puntero+k)+i)+j);
-*/
+
+
+
